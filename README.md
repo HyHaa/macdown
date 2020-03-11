@@ -6,7 +6,7 @@
 [![Say Thanks!](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg)](https://saythanks.io/to/macdown)
 
 
-MacDown is an open source Markdown editor for OS X, released under the MIT License. The author stole the idea from [Chen Luo](https://twitter.com/chenluois)’s [Mou](http://mouapp.com) so that people can [make crappy clones](https://twitter.com/remaerd/status/484914820408279040).
+MacDown is an open source Markdown editor for OS X, released under the MIT License. The author stole the idea from [Chen Luo](https://twitter.com/chenluois)’s [Mou](http://mouapp.com) so that people can make crappy clones.
 
 Visit the [project site](http://macdown.uranusjr.com/) for more information, or download [MacDown.app.zip](http://macdown.uranusjr.com/download/latest/) directly from the [latest releases](https://github.com/MacDownApp/macdown/releases/latest) page.
 
@@ -15,6 +15,10 @@ Visit the [project site](http://macdown.uranusjr.com/) for more information, or 
 [Download](http://macdown.uranusjr.com/download/latest/), unzip, and drag the app to Applications folder. MacDown is also available through [Homebrew Cask](https://caskroom.github.io/):
 
     brew cask install macdown
+
+## Screenshot
+
+![screenshot](assets/screenshot.png)
 
 ## License
 
@@ -46,15 +50,17 @@ The following editor themes and CSS files are extracted from [Mou](http://mouapp
 
 If you wish to build MacDown yourself, you will need the following components/tools:
 
-* OS X SDK (10.8 or later)
+* OS X SDK (10.14 or later)
 * Git
 * [Bundler](http://bundler.io)
 
-You may also need to install Xcode’s command line tools with the following command:
+> Note: Old versions of CocoaPods are not supported. Please use Bundler to execute CocoaPods, or make sure your CocoaPods is later than shown in `Gemfile.lock`.
 
-    xcode-select --install
-
-> Note: Due to multiple upstream bugs, Xcode may fail to build certain dependencies if you use the CocoaPods with versions lower than 0.39. Please upgrade CocoaPods, or use Bundler to execute a local version (as suggested above) instead.
+> Note: The Command Line Tools (CLT) should be unnecessary. If you failed to compile without it, please install CLT with
+>
+>     xcode-select --install
+>
+> and report back.
 
 An appropriate SDK should be bundled with Xcode 5 or later versions.
 
@@ -62,10 +68,10 @@ An appropriate SDK should be bundled with Xcode 5 or later versions.
 
 After cloning the repository, run the following commands inside the repository root (directory containing this `README.md` file):
 
-    git submodule init
-    git submodule update
+    git submodule update --init
     bundle install
     bundle exec pod install
+    make -C Dependency/peg-markdown-highlight
 
 and open `MacDown.xcworkspace` in Xcode. The first command initialises the dependency submodule(s) used in MacDown; the second one installs dependencies managed by CocoaPods.
 
@@ -73,6 +79,12 @@ Refer to the official guides of Git and CocoaPods if you need more instructions.
 
     git submodule update
     bundle exec pod install
+
+### Translation
+
+Please help translation on [Transifex](https://www.transifex.com/macdown/macdown/).
+
+![Transifex translation percentage](https://www.transifex.com/projects/p/macdown/resource/macdownxliff/chart/image_png/)
 
 ## Discussion
 

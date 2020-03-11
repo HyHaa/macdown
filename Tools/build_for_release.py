@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+
+import argparse
 import os
 import re
 import shutil
@@ -50,13 +52,15 @@ def archive_dir(zip_f, directory):
             zip_f.write(full_path)
 
 
-def main(argv):
-    if len(argv) < 2:
-        name = os.path.basename(argv[0])
-        print('Usage: {name} private_key'.format(name=name))
-        return
+def parse_args(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path_to_pem', help='path to .pem private key')
+    return parser.parse_args(argv)
 
-    cert_path = argv[1]
+
+def main(argv):
+    options = parse_args(argv)
+    cert_path = options.path_to_pem
 
     print('Pre-build cleaning...')
     if os.path.exists(BUILD_DIR):
@@ -89,11 +93,12 @@ def main(argv):
         re.MULTILINE,
     )
     archive_path = match.group(1)
+
     print('Exporting application bundle...')
-    execute(
-        XCODEBUILD, '-exportArchive', '-exportFormat', 'app',
-        '-archivePath', archive_path, '-exportPath', APP_NAME,
+    source_app_path = os.path.join(
+        archive_path, 'Products', 'Applications', APP_NAME,
     )
+    shutil.copytree(source_app_path, APP_NAME)
 
     # Zip.
     with zipfile.ZipFile(ZIP_NAME, 'w') as f:
@@ -140,5 +145,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    import sys
-    main(sys.argv)
+    main(None)
